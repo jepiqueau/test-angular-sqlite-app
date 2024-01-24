@@ -58,9 +58,10 @@ npm install -D rimraf
 ```json
 "scripts": {
   ...
+  "build:capacitor": "npm run remove:sql:wasm && npx cap sync && ng build && npx cap copy",
   "remove:sql:wasm": "rimraf src/assets/sql-wasm.wasm",
-  "angular:ios": "npm run remove:sql:wasm && ionic capacitor build ios",
-  "angular:android": "npm run remove:sql:wasm && ionic capacitor build android",
+  "angular:ios": "npm run build:capacitor && npx cap open ios",
+  "angular:android": "npm run build:capacitor && npx cap open android",
   ...
 }
 ```

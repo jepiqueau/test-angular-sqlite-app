@@ -1,27 +1,75 @@
-# TestApp
+#  test-angular-sqlite-app
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.4.
+This is an example of a pure angular application using @capacitor-community/sqlite.
 
-## Development server
+Request: Add examples for angular and sqlite without Ionic. #499
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Installation
 
-## Code scaffolding
+```bash
+git clone https://github.com/jepiqueau/test-angular-sqlite-app.git
+cd test-angular-sqlite-app
+npm install
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Run on Web
 
-## Build
+```bash
+npm start
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Results
 
-## Running unit tests
+![Alt text](test-angular-sqlite-app-web.png)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+## Run on Native
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+ - Open the capacitor.config.ts file and add
 
-## Further help
+```ts
+  plugins: {
+    CapacitorSQLite: {
+      iosDatabaseLocation: 'Library/CapacitorDatabase',
+      iosIsEncryption: false,
+      iosKeychainPrefix: 'angular-sqlite-app-starter',
+      iosBiometric: {
+        biometricAuth: false,
+        biometricTitle : "Biometric login for capacitor sqlite"
+      },
+      androidIsEncryption: false,
+      androidBiometric: {
+        biometricAuth : false,
+        biometricTitle : "Biometric login for capacitor sqlite",
+        biometricSubTitle : "Log in using your biometric"
+      }
+    }
+  }
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+ - Install rimraf
+
+```bash
+npm install -D rimraf
+```
+
+ - Modify the script in the package.json file 
+
+```json
+"scripts": {
+  ...
+  "remove:sql:wasm": "rimraf src/assets/sql-wasm.wasm",
+  "angular:ios": "npm run remove:sql:wasm && ionic capacitor build ios",
+  "angular:android": "npm run remove:sql:wasm && ionic capacitor build android",
+  ...
+}
+```
+
+```bash
+npm run build
+npx cap add ios
+npx cap add android
+npm run angular:ios
+npm run angular:android
+```
+
